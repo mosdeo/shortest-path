@@ -71,7 +71,6 @@ if __name__ == "__main__":
         x, y = node
         if map[x][y] in {'1' ,'2'}:
             continue 
-        print("map[{}][{}]={}, set to 'A'".format(x, y, map[x][y]))
         map[x][y] = "A"
         
     for m in map:
