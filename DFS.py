@@ -28,24 +28,24 @@ def get_neighbor(current_node):
         nodes += [[x,y+1]]
     return nodes
 
-def bfs_search(current, traget, pass_node_list):
-    # 1.把起點塞入queue
-    queue = [current]
+def dfs_search(current, traget, pass_node_list):
+    # 1.把起點塞入stack
+    stack = [current]
 
-    # 2.重複下述兩步驟，直到queue裡面沒有東西為止
-    while len(queue)>0:
-        # 2-1.queue彈出一點給head
-        head = queue[0]
-        queue = queue[1:]
+    # 2.重複下述兩步驟，直到stack裡面沒有東西為止
+    while len(stack)>0:
+        # 2-1.stack push出一點給head
+        head = stack[-1]
+        stack = stack[:-1]
 
-        # 2-2.找出跟此點相鄰的點，並且尚未遍歷的點，通通（依照編號順序）塞入queue。
+        # 2-2.找出跟此點相鄰的點，並且尚未遍歷的點，通通（依照編號順序）塞入stack。
         neighbors = get_neighbor(head)    
         for neighbor in neighbors:
             x, y = neighbor
             if map_visited[x][y] == False and map[x][y] != 3:
                 map_visited[x][y] = True
                 map_parent[x][y] = head #標記其起節點
-                queue += [[x, y]]
+                stack += [[x, y]]
 
                 # 記錄中間的路徑
                 if [x, y] == end_node:
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     for x in range(len(map)):
         for y in range(len(map[x])):
             if map_visited[x][y] == False:
-                pass_node_list = bfs_search(current=[x, y], traget=end_node, pass_node_list=pass_node_list)
+                pass_node_list = dfs_search(current=[x, y], traget=end_node, pass_node_list=pass_node_list)
 
     # 根據搜尋好的節點，繪製路徑
     map = [[str(element).replace("0", " ") for element in row] for row in map]
