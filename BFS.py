@@ -76,6 +76,7 @@ if __name__ == "__main__":
         
     for m in map:
         print(str(m).replace('\'', ''))
-        
+
+    print("len(pass_node_list)={}".format(len(pass_node_list)))
     print("time_complex={}".format(time_complex))
         
