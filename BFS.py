@@ -14,6 +14,7 @@ end_node = [6,9]
 start_node = [0,0]
 map_visited = [[False]*len(map[0]) for _ in range(len(map))]
 map_parent = [[None]*len(map[0]) for _ in range(len(map))]
+time_complex = [0]
 
 def get_neighbor(current_node):
     nodes = []
@@ -35,25 +36,25 @@ def bfs_search(current, traget, pass_node_list):
     # 2.重複下述兩步驟，直到queue裡面沒有東西為止
     while len(queue)>0:
         # 2-1.queue彈出一點給head
-        head = queue[0]
-        queue = queue[1:]
+        head, queue = queue[0], queue[1:]
 
         # 2-2.找出跟此點相鄰的點，並且尚未遍歷的點，通通（依照編號順序）塞入queue。
         neighbors = get_neighbor(head)    
         for neighbor in neighbors:
             x, y = neighbor
             if map_visited[x][y] == False and map[x][y] != 3:
+                time_complex[0] += 1
                 map_visited[x][y] = True
                 map_parent[x][y] = head #標記其起節點
                 queue += [[x, y]]
 
-                # 記錄中間的路徑
-                if [x, y] == end_node:
+                # 從尾找到頭，記錄中間的路徑
+                if [x, y] == traget:
+                    pass_node_list += [traget]
                     while neighbor != start_node:
                         _x, _y = neighbor
                         neighbor = map_parent[_x][_y]
                         pass_node_list += [neighbor]
-                    pass_node_list += [traget]
     return pass_node_list
 
 if __name__ == "__main__":
@@ -75,4 +76,6 @@ if __name__ == "__main__":
         
     for m in map:
         print(str(m).replace('\'', ''))
+        
+    print("time_complex={}".format(time_complex))
         
